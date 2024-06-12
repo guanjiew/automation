@@ -39,18 +39,16 @@ const sendToSlack = async (message) => {
 // Main function
 const main = async () => {
     const html = await fetchHtml(url);
+    console.log(html)
     if (!html) {
         console.error('Failed to fetch the HTML content.');
         return;
     }
 
-    const unavailablePattern = '<td .* aria-label="LL: 1pm-2pm Departures Unavailable ">.*</td>';
-    const availablePattern = '<td .* aria-label="LL: 1pm-2pm Departures Available ">.*</td>';
+    // const unavailablePattern = '<td .* aria-label="LL: 11am-12pm Departures Unavailable ">.*</td>';
+    const availablePattern = '<td .* aria-label="LL: 11am-12pm Departures Available ">.*</td>';
 
-    if (checkForPattern(html, unavailablePattern)) {
-        console.log('1pm-2pm Departures are currently unavailable.');
-        await sendToSlack('1pm-2pm Departures are now available!');
-    } else if (checkForPattern(html, availablePattern)) {
+    if (checkForPattern(html, availablePattern)) {
         console.log('1pm-2pm Departures are now available!');
         await sendToSlack('1pm-2pm Departures are now available!');
     } else {
